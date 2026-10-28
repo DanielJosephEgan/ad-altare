@@ -2,6 +2,8 @@
 
 A mobile-first prototype for following the 1962 Roman Mass and learning its Latin in context.
 
+Repository: [github.com/DanielJosephEgan/ad-altare](https://github.com/DanielJosephEgan/ad-altare)
+
 ## Current release source
 
 This folder, `outputs/latin-mass-app`, is the authoritative working and release source for Ad Altare.
