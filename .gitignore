@@ -1,0 +1,10 @@
+# Historical working copies are kept locally, not in the public release.
+_backup-before-claude-merge-2026-09-18/
+app.js.bak-before-oct14
+
+# Local/editor output
+node_modules/
+*.log
+.DS_Store
+Thumbs.db
+

@@ -1,0 +1,7 @@
+Year: 2026
+Imported: 365
+Errors: 0
+Elapsed seconds: 361.5
+Output: outputs\latin-mass-app\data\masses-2026.json
+
+Errors:

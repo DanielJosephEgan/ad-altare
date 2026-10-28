@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#6f1d2d">
+  <meta name="description" content="A phone-first 1962 Latin Mass companion with word-by-word Latin learning.">
+  <title>Ad Altare — Latin Mass Companion</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#massText">Skip to Mass text</a>
+
+  <header class="app-header">
+    <div class="brand" aria-label="Ad Altare home">
+      <span class="brand-mark" aria-hidden="true">✠</span>
+      <span><strong>Ad Altare</strong><small>1962 Roman Missa<button type="button" class="editor-secret" id="editorSecret" aria-label="Open the private alignment editor">l</button></small></span>
+    </div>
+    <div class="alignment-editor-controls" id="alignmentEditorControls" aria-label="Private alignment editor" hidden>
+      <button type="button" id="alignmentEditButton">Edit</button>
+      <button type="button" id="alignmentAssignButton" hidden>Assign</button>
+      <button type="button" id="alignmentFinishedButton" hidden>Finished</button>
+      <span id="alignmentEditorStatus" aria-live="polite"></span>
+    </div>
+    <button class="icon-button" id="settingsButton" aria-label="Reading settings" aria-expanded="false">Aa</button>
+  </header>
+
+  <main>
+    <section class="day-hero" aria-labelledby="feastTitle">
+      <div class="date-controls">
+        <button class="date-step" id="previousDay" aria-label="Previous day">‹</button>
+        <button class="date-display" id="dateButton" aria-label="Choose a date">
+          <span id="dateWeekday">Wednesday</span>
+          <strong id="dateLabel">June 24, 2026</strong>
+        </button>
+        <input id="datePicker" type="date" value="2026-06-24" aria-label="Mass date">
+        <button class="date-step" id="nextDay" aria-label="Next day">›</button>
+      </div>
+
+      <p class="eyebrow" id="liturgicalMeta"><span class="vestment white"></span> First class · White</p>
+      <h1 id="feastTitle">The Nativity of St. John the Baptist</h1>
+      <p class="feast-latin" id="feastLatin">In Nativitate S. Joannis Baptistæ</p>
+
+      <label class="mass-select-label" for="massSelect">Mass loaded for this day</label>
+      <select id="massSelect" class="mass-select">
+        <option value="day">Mass of the Day</option>
+      </select>
+      <p class="data-note" id="dataNote" hidden></p>
+    </section>
+
+    <section class="mode-bar" aria-label="Reading mode">
+      <div class="segmented" role="group" aria-label="Choose reading mode">
+        <button class="mode active" data-mode="follow" aria-pressed="true">Missal</button>
+        <button class="mode" data-mode="learn" aria-pressed="false">Learn</button>
+        <button class="mode" data-mode="latin" aria-pressed="false">Latin only</button>
+        <button class="mode" data-mode="progress" aria-pressed="false">Latin Progress</button>
+      </div>
+      <button class="bookmark-button" id="vocabButton"><span aria-hidden="true">◇</span> <span id="savedCount">0</span> words</button>
+    </section>
+
+    <nav class="section-nav" aria-label="Mass sections">
+      <div id="sectionNav"></div>
+    </nav>
+
+    <div class="reading-progress" aria-hidden="true"><span id="readingProgress"></span></div>
+
+    <section class="mass-shell">
+      <aside class="desktop-toc" aria-label="Order of Mass">
+        <p>Order of Mass</p>
+        <div id="desktopNav"></div>
+      </aside>
+
+      <article id="massText" class="mass-text" tabindex="-1" aria-live="polite"></article>
+
+      <aside class="learn-rail" id="learnRail" aria-label="Study progress">
+        <p class="rail-label">Today’s Latin</p>
+        <div class="progress-ring" id="progressRing" style="--progress:0"><strong id="learnedPercent">0%</strong><span>explored</span></div>
+        <p id="exploredCount">Tap Latin words to begin.</p>
+        <button class="primary-button" id="practiceButton">Practice Learning words</button>
+      </aside>
+    </section>
+  </main>
+
+  <footer>
+    <span aria-hidden="true">✠</span>
+    <p>Designed for prayer first, study second.</p>
+    <small id="appVersion">Ad Altare Beta</small>
+    <button id="todayButton">Return to today</button>
+  </footer>
+
+  <dialog id="wordDialog" class="word-dialog">
+    <form method="dialog" class="sheet">
+      <div class="sheet-handle" aria-hidden="true"></div>
+      <button class="sheet-close" value="close" aria-label="Close word details">×</button>
+      <p class="eyebrow" id="wordGrammar">Noun · accusative singular</p>
+      <h2 id="wordForm">altare</h2>
+      <p class="pronunciation" id="wordPronunciation">ahl-TAH-reh</p>
+      <p class="word-meaning" id="wordMeaning">altar</p>
+      <dl>
+        <div><dt>Dictionary form</dt><dd id="wordLemma">altare, altaris</dd></div>
+        <div><dt>In this sentence</dt><dd id="wordContext">to the altar</dd></div>
+        <div><dt>Reference #</dt><dd id="wordNumber">L0001</dd></div>
+      </dl>
+      <div class="word-actions-dialog">
+        <button type="button" class="learn-word" id="learnWordButton">Add this to Learn</button>
+        <button type="button" class="know-word" id="knowWordButton">I know this</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="practiceDialog" class="practice-dialog">
+    <div class="practice-panel">
+      <div class="practice-header">
+        <div><p class="eyebrow">Quick practice</p><h2>Learning words</h2></div>
+        <button class="sheet-close" id="closePractice" aria-label="Close practice">×</button>
+      </div>
+      <div id="practiceEmpty" class="empty-state">
+        <span aria-hidden="true">◇</span>
+        <h3>No words in Learning yet</h3>
+        <p>Open Learn mode, tap a Latin word, and choose “Add this to Learn.”</p>
+      </div>
+      <div id="flashcard" class="flashcard" hidden tabindex="0" role="button" aria-label="Flip flashcard">
+        <p class="eyebrow" id="cardProgress">Word 1 of 1</p>
+        <div id="cardFront" class="card-face"></div>
+        <p class="flip-hint">Tap to reveal</p>
+      </div>
+      <div id="cardActions" class="card-actions" hidden>
+        <button data-score="again">Again</button>
+        <button data-score="known">I knew it</button>
+      </div>
+    </div>
+  </dialog>
+
+  <aside id="settingsPanel" class="settings-panel" aria-hidden="true">
+    <div class="settings-head"><strong>Reading settings</strong><button id="closeSettings" aria-label="Close settings">×</button></div>
+    <label>Text size <input id="fontSize" type="range" min="16" max="25" value="19"></label>
+    <label class="setting-row"><span>Dim for church</span><input id="dimToggle" type="checkbox" role="switch"></label>
+    <label class="setting-row"><span>Keep screen awake</span><input id="wakeToggle" type="checkbox" role="switch"></label>
+  </aside>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="data/masses-2026-part1.js"></script>
+  <script src="data/masses-2026-part2.js"></script>
+  <script src="data/masses-2026-part3.js"></script>
+  <script src="data/masses-2026-part4.js"></script>
+  <script src="data/latin-lexicon.js"></script>
+  <script src="data/word-match-overrides.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
